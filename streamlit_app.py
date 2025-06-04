@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import datetime as dt
@@ -24,14 +23,16 @@ def check_password():
     else:
         return True
 
+# Log trade to Google Sheet
 def log_trade_to_sheet(trade):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets.to_dict(), scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets"], scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_key("15KZYl20YZ9zesfFUPyW0b4gUcoBqS_FVi4aT-9lii5A")
     worksheet = sheet.worksheet("TradeLog")
     worksheet.append_row(trade)
 
+# Main app
 if check_password():
     st.title("🚀 Crypto War Room")
     st.markdown("Welcome to your live crypto trading dashboard.")
