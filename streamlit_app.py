@@ -44,8 +44,22 @@ if check_password():
     pnl = "+$128.67"
     strategy = "MACD"
 
-    trade = [now, symbol, action, confidence, pnl, strategy]
-    df = pd.DataFrame([trade], columns=["Time", "Symbol", "Action", "Confidence", "Simulated PnL", "Strategy"])
+    trade = [
+        now,           # Timestamp
+        symbol,        # Asset
+        action,        # Side
+        "",            # Entry Price (empty for now)
+        "",            # Quantity (empty for now)
+        pnl,           # Simulated P&L ($)
+        "",            # Setup Tag (optional note)
+        strategy,      # Strategy Tag
+        ""             # Realized P&L
+    ]
+
+    df = pd.DataFrame([trade], columns=[
+        "Timestamp", "Asset", "Side", "Entry Price", "Quantity", 
+        "Simulated P&L ($)", "Setup Tag", "Strategy Tag", "Realized P&L"
+    ])
     st.table(df)
 
     try:
