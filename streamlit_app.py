@@ -24,16 +24,15 @@ def check_password():
 
 if check_password():
     st.title("🚀 Crypto War Room")
-    st.markdown("Welcome to your crypto trading command center.")
+    st.markdown("Simulated trade generated below.")
 
-    st.subheader("📈 Latest Simulated Trade")
-    df = pd.DataFrame({
-        "Time": [dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")],
-        "Symbol": ["BTC/USD"],
-        "Action": ["BUY"],
-        "Confidence": ["87%"],
-        "Simulated PnL ($)": ["+$122.45"]
-    })
+    now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    df = pd.DataFrame([{
+        "Time": now,
+        "Symbol": "BTC/USD",
+        "Action": "BUY",
+        "Confidence": "91.4%",
+        "Simulated PnL": "+$128.67",
+        "Strategy": "MACD"
+    }])
     st.table(df)
-
-    st.success("Simulated trade alert sent. Daily performance tracking active.")
