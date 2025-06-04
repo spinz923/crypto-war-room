@@ -2,6 +2,8 @@
 import streamlit as st
 import pandas as pd
 import datetime as dt
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 # Password protection
 def check_password():
@@ -22,17 +24,31 @@ def check_password():
     else:
         return True
 
+def log_trade_to_sheet(trade):
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+    client = gspread.authorize(creds)
+    sheet = client.open_by_key("15KZYl20YZ9zesfFUPyW0b4gUcoBqS_FVi4aT-9lii5A")
+    worksheet = sheet.worksheet("TradeLog")
+    worksheet.append_row(trade)
+
 if check_password():
     st.title("🚀 Crypto War Room")
-    st.markdown("Simulated trade generated below.")
+    st.markdown("Welcome to your live crypto trading dashboard.")
 
     now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    df = pd.DataFrame([{
-        "Time": now,
-        "Symbol": "BTC/USD",
-        "Action": "BUY",
-        "Confidence": "91.4%",
-        "Simulated PnL": "+$128.67",
-        "Strategy": "MACD"
-    }])
+    symbol = "BTC/USD"
+    action = "BUY"
+    confidence = "91.4%"
+    pnl = "+$128.67"
+    strategy = "MACD"
+
+    trade = [now, symbol, action, confidence, pnl, strategy]
+    df = pd.DataFrame([trade], columns=["Time", "Symbol", "Action", "Confidence", "Simulated PnL", "Strategy"])
     st.table(df)
+
+    try:
+        log_trade_to_sheet(trade)
+        st.success("✅ Trade logged to Google Sheet successfully.")
+    except Exception as e:
+        st.error(f"❌ Failed to log trade: {e}")
