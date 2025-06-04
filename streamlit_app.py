@@ -40,7 +40,8 @@ if check_password():
     now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     symbol = "BTC/USD"
     action = "BUY"
-    confidence = "91.4%"
+    entry_price = "67850.00"
+    quantity = "0.25"
     pnl = "+$128.67"
     strategy = "MACD"
 
@@ -48,10 +49,10 @@ if check_password():
         now,           # Timestamp
         symbol,        # Asset
         action,        # Side
-        "",            # Entry Price (empty for now)
-        "",            # Quantity (empty for now)
+        entry_price,   # Entry Price
+        quantity,      # Quantity
         pnl,           # Simulated P&L ($)
-        "",            # Setup Tag (optional note)
+        "",            # Setup Tag
         strategy,      # Strategy Tag
         ""             # Realized P&L
     ]
