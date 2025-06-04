@@ -26,7 +26,7 @@ def check_password():
 
 def log_trade_to_sheet(trade):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets.to_dict(), scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_key("15KZYl20YZ9zesfFUPyW0b4gUcoBqS_FVi4aT-9lii5A")
     worksheet = sheet.worksheet("TradeLog")
